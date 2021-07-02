@@ -1,10 +1,12 @@
 import smtplib
 from selenium import webdriver
 
+link = " ENTER URL HERE"  #Enter url of the productpage here
+
 coptions = webdriver.ChromeOptions()
 coptions.add_argument('headless')
 browser = webdriver.Chrome(options = coptions)
-browser.get("https://www.amazon.in/Sony-Extra-Bass-MDR-XB450AP-Headphones/dp/B00SISQAX2/ref=sr_1_1?dchild=1&keywords=Sony+MDR-XB450AP&qid=1624419350&sr=8-1")
+browser.get(link)
 price = browser.find_element_by_id('priceblock_ourprice').text
 price = price[2:]
 price = price[0]+price[2:5]
@@ -13,7 +15,7 @@ print(price)
 
 receiver = 'ENTER YOUR MAIL ID'   #enter your mail id here
 subject = 'Sony MDRXB-450AP price drop!'
-body = 'Rs.' + str(price) + '\n Sony MDRXB 450AP is now under your budget. \n\n https://www.amazon.in/Sony-Extra-Bass-MDR-XB450AP-Headphones/dp/B00SISQAX2/ref=sr_1_1?dchild=1&keywords=Sony+MDR-XB450AP&qid=1624419350&sr=8-1'
+body = 'Rs.' + str(price) + f'\n Product is now under your budget. \n\n {link}'
 
 message = f'subject: {subject}\n\n{body}'
 def sendmail(receiver, message):
@@ -24,7 +26,7 @@ def sendmail(receiver, message):
     server.sendmail('BOT MAIL ID', receiver, message)
     server.quit()
 
-if(price < 2000):  #enter your budget amount here
+if(price < 2000):  #enter your budget amount here in space of 2000
     sendmail(receiver, message)
 else:
     print("Still above your budget")
